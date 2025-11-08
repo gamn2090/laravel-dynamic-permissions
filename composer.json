@@ -33,21 +33,21 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"gamn2090\\DynamicPermissions\\": "src/"
+			"Gamn2090\\DynamicPermissions\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"gamn2090\\DynamicPermissions\\Tests\\": "tests/"
+			"Gamn2090\\DynamicPermissions\\Tests\\": "tests/"
 		}
 	},
 	"extra": {
 		"laravel": {
 			"providers": [
-				"gamn2090\\DynamicPermissions\\DynamicPermissionsServiceProvider"
+				"Gamn2090\\DynamicPermissions\\DynamicPermissionsServiceProvider"
 			],
 			"aliases": {
-				"DynamicPermissions": "gamn2090\\DynamicPermissions\\Facades\\DynamicPermissions"
+				"DynamicPermissions": "Gamn2090\\DynamicPermissions\\Facades\\DynamicPermissions"
 			}
 		}
 	},
