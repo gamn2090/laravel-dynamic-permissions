@@ -261,7 +261,7 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 ## 👨‍💻 Author
 
 **Gustavo**
-- Email: your-email@example.com
+- Email: gamn2090@gmail.com
 - GitHub: [@gamn2090](https://github.com/gamn2090)
 
 ## 🙏 Acknowledgments
