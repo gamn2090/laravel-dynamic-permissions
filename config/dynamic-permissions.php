@@ -11,7 +11,8 @@ return [
     */
 	'models' => [
 		'user' => \App\Models\User::class,
-		'role' => \App\Models\Role::class,
+		'role' => \Gamn2090\DynamicPermissions\Models\Role::class,
+		'feature' => \Gamn2090\DynamicPermissions\Models\Feature::class,
 	],
 
 	/*
@@ -23,124 +24,76 @@ return [
     |
     */
 	'tables' => [
+		'roles' => 'roles',
 		'features' => 'features',
-		'role_features' => 'role_features',
-		'user_feature_overrides' => 'user_feature_overrides',
+		'role_user' => 'role_user',
+		'feature_role' => 'feature_role',
+		'user_features' => 'user_features',
 	],
 
 	/*
     |--------------------------------------------------------------------------
-    | Cache Configuration
+    | Cache Settings
     |--------------------------------------------------------------------------
     |
-    | Configure caching behavior for permissions.
+    | Configure caching for permissions and features.
     |
     */
 	'cache' => [
-		'enabled' => true,
-		'ttl' => 3600, // Cache TTL in seconds (1 hour)
+		'enabled' => env('DYNAMIC_PERMISSIONS_CACHE_ENABLED', true),
+		'ttl' => env('DYNAMIC_PERMISSIONS_CACHE_TTL', 3600), // 1 hour
 		'prefix' => 'dynamic_permissions',
-		'store' => null, // null uses default cache store
 	],
 
 	/*
     |--------------------------------------------------------------------------
-    | Feature Types
+    | Auto-Sync from Routes
     |--------------------------------------------------------------------------
     |
-    | Define the types of features available.
-    |
-    */
-	'feature_types' => [
-		'grandparent' => 'Grandparent (Top-level group)',
-		'parent' => 'Parent (Sub-group)',
-		'child' => 'Child (Actual feature/page)',
-	],
-
-	/*
-    |--------------------------------------------------------------------------
-    | Auto-Sync Features
-    |--------------------------------------------------------------------------
-    |
-    | Automatically sync features from routes.
+    | Automatically sync features from your route names.
     |
     */
 	'auto_sync' => [
-		'enabled' => false,
-		'route_patterns' => [
-			// Only sync API routes
-			'prefix' => ['api'],
-			// Exclude these routes
-			'exclude' => [
-				'sanctum.*',
-				'ignition.*',
-				'_ignition.*',
-				'horizon.*',
-				'telescope.*',
-			],
-		],
-		'map_to_features' => [
-			'index' => ['type' => 'child', 'name' => 'View :resource'],
-			'show' => ['type' => 'child', 'name' => 'View :resource Details'],
-			'store' => ['type' => 'child', 'name' => 'Create :resource'],
-			'update' => ['type' => 'child', 'name' => 'Update :resource'],
-			'destroy' => ['type' => 'child', 'name' => 'Delete :resource'],
-		],
+		'enabled' => env('DYNAMIC_PERMISSIONS_AUTO_SYNC', false),
+		'route_prefixes' => ['admin', 'dashboard'], // Only sync routes with these prefixes
+		'excluded_routes' => ['login', 'logout', 'register'], // Skip these routes
 	],
 
 	/*
     |--------------------------------------------------------------------------
-    | Sidebar Configuration
+    | API Routes
     |--------------------------------------------------------------------------
     |
-    | Configure sidebar generation behavior.
-    |
-    */
-	'sidebar' => [
-		'include_grandparents' => true,
-		'include_parents' => true,
-		'only_with_children' => false,
-		'show_icons' => true,
-		'show_descriptions' => false,
-	],
-
-	/*
-    |--------------------------------------------------------------------------
-    | API Routes Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Configure the package's API routes.
+    | Configure the API routes for managing permissions.
     |
     */
 	'routes' => [
-		'enabled' => true,
+		'enabled' => env('DYNAMIC_PERMISSIONS_API_ENABLED', true),
 		'prefix' => 'api/permissions',
 		'middleware' => ['api', 'auth:sanctum'],
 	],
 
 	/*
     |--------------------------------------------------------------------------
-    | Override Expiration
+    | Default Role
     |--------------------------------------------------------------------------
     |
-    | Automatically expire user feature overrides.
+    | The default role slug to assign to new users.
+    | Set to null to disable automatic role assignment.
     |
     */
-	'override_expiration' => [
-		'enabled' => true,
-		'check_interval' => 'daily', // Run expiration check daily
-	],
+	'default_role' => env('DYNAMIC_PERMISSIONS_DEFAULT_ROLE', null),
 
 	/*
     |--------------------------------------------------------------------------
-    | Logging
+    | Super Admin
     |--------------------------------------------------------------------------
     |
-    | Log permission checks for debugging.
+    | Super admin role bypasses all permission checks.
     |
     */
-	'logging' => [
-		'enabled' => false,
-		'channel' => 'stack',
+	'super_admin' => [
+		'enabled' => env('DYNAMIC_PERMISSIONS_SUPER_ADMIN_ENABLED', true),
+		'role_slug' => 'super-admin',
 	],
 ];
