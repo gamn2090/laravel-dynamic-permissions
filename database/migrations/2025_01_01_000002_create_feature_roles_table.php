@@ -15,8 +15,14 @@ return new class extends Migration
 			$table->id();
 			$table->unsignedBigInteger('role_id');
 			$table->foreignId('feature_id')->constrained()->onDelete('cascade');
+			$table->boolean('can_access')->default(true)->after('feature_id');
+			$table->foreignId('granted_by')->nullable()->after('can_access')->constrained('users')->onDelete('set null');
+			$table->timestamp('granted_at')->useCurrent()->after('granted_by');
 			$table->timestamps();
 
+			$table->index('can_access');
+			$table->index('granted_by');
+			$table->index('granted_at');
 			$table->unique(['role_id', 'feature_id']);
 			$table->index('role_id');
 		});
