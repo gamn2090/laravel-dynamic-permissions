@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Role extends Model
-{
-    use SoftDeletes;
+class Role extends     use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -50,8 +48,8 @@ class Role extends Model
      */
     public function features(): BelongsToMany
     {
-        return $this->belongsToMany(Feature::class, config('dynamic-permissions.tables.feature_role', 'feature_role'))
-            ->withPivot(['can_access', 'granted_by', 'granted_at'])
+                return $this->belongsToMany(Feature::class, config('dynamic-permissions.tables.role_feature', 'role_feature'))
+    ->withPivot(['can_access', 'granted_by', 'granted_at'])
             ->withTimestamps();
     }
 
@@ -224,4 +222,32 @@ class Role extends Model
 
         return $this->update(['is_default' => true]);
     }
+
+	public function setAsDefault(): bool
+	{
+		// Remove default flag from other roles
+		static::where('is_default', true)->update(['is_default' => false]);
+
+		return $this->update(['is_default' => true]);
+	}
+}
+te(['is_default' => true]);
+	}    
+ */	public function setAsDefault(): bool
+	{
+		// Remove default flag from other roles
+		static::where('is_default', true)->update(['is_default' => false]);
+
+		return $this->update(['is_default' => true]);
+	}
+}
+te(['is_default' => true]);
+	}    
+ */	public function setAsDefault(): bool
+	{
+		// Remove default flag from other roles
+		static::where('is_default', true)->update(['is_default' => false]);
+
+		return $this->update(['is_default' => true]);
+	}
 }

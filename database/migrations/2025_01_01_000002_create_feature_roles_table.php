@@ -11,7 +11,7 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		Schema::create('role_features', function (Blueprint $table) {
+		Schema::create('feature_roles', function (Blueprint $table) {
 			$table->id();
 			$table->unsignedBigInteger('role_id');
 			$table->foreignId('feature_id')->constrained()->onDelete('cascade');
@@ -27,6 +27,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('role_features');
+		Schema::dropIfExists('feature_roles');
 	}
 };
