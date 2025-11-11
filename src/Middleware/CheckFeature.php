@@ -31,7 +31,7 @@ class CheckFeature
             return response()->json([
                 'message' => 'Forbidden. You do not have access to this feature.',
                 'required_feature' => $feature,
-                'user_features' => config('app.debug') ? $user->getAccessibleFeatures()->pluck('slug') : null,
+                'user_feature_overrides' => config('app.debug') ? $user->getAccessibleFeatures()->pluck('slug') : null,
             ], 403);
         }
 

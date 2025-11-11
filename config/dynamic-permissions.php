@@ -28,7 +28,7 @@ return [
         'features' => 'features',
         'role_user' => 'role_user',
         'feature_role' => 'role_feature',
-        'user_features' => 'user_features',
+        'user_feature_overrides' => 'user_feature_overrides',
     ],
 
     /*
