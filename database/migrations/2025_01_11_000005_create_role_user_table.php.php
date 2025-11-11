@@ -11,7 +11,7 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		Schema::create(config('dynamic-permissions.tables.role_user', 'role_user'), function (Blueprint $table) {
+		Schema::create(config('dynamic-permissions.tables.role_users', 'role_users'), function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('user_id')->constrained()->onDelete('cascade');
 			$table->foreignId('role_id')

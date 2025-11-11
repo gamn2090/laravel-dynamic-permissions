@@ -40,6 +40,14 @@ class Feature extends Model
     }
 
     /**
+     * Get the parent feature.
+     */
+    public function userOverrides(): BelongsToMany
+    {
+        return $this->belongsToMany(UserFeatureOverride::class, 'feature_id');
+    }
+
+    /**
      * Get the child features.
      */
     public function children(): HasMany
