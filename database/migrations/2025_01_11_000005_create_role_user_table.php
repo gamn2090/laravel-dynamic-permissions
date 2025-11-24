@@ -11,14 +11,14 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		Schema::create(config('dynamic-permissions.tables.role_users', 'role_users'), function (Blueprint $table) {
+		Schema::create(config('dynamic-permissions.tables.role_user', 'role_user'), function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')->constrained()->onDelete('cascade');
+			$table->unsignedBigInteger('user_id')->index();
 			$table->foreignId('role_id')
 				->constrained(config('dynamic-permissions.tables.roles', 'roles'))
 				->onDelete('cascade');
 			$table->timestamp('assigned_at')->useCurrent();
-			$table->foreignId('assigned_by')->nullable()->constrained('users')->onDelete('set null');
+			$table->unsignedBigInteger('assigned_by')->nullable()->index();
 			$table->timestamps();
 
 			// Unique constraint to prevent duplicate assignments
@@ -26,7 +26,6 @@ return new class extends Migration
 
 			// Indexes for queries
 			$table->index('assigned_at');
-			$table->index('assigned_by');
 		});
 	}
 

@@ -25,7 +25,6 @@ return new class extends Migration
 			$table->json('metadata')->nullable();
 			$table->timestamps();
 
-			$table->index('slug');
 			$table->index('parent_id');
 			$table->index(['type', 'is_active']);
 		});

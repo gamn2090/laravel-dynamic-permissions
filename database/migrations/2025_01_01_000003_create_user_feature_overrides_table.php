@@ -13,12 +13,11 @@ return new class extends Migration
 	{
 		Schema::create('user_feature_overrides', function (Blueprint $table) {
 			$table->id();
-			$table->unsignedBigInteger('user_id');
+			$table->unsignedBigInteger('user_id')->index();
 			$table->foreignId('feature_id')->constrained()->onDelete('cascade');
 			$table->boolean('can_access');
-			$table->boolean('has_access');
-			$table->unsignedBigInteger('granted_by')->nullable();
-			$table->unsignedBigInteger('revoked_by')->nullable();
+			$table->unsignedBigInteger('granted_by')->nullable()->index();
+			$table->unsignedBigInteger('revoked_by')->nullable()->index();
 			$table->text('reason')->nullable();
 			$table->timestamp('expires_at')->nullable();
 			$table->timestamp('granted_at')->nullable();
@@ -26,7 +25,7 @@ return new class extends Migration
 			$table->timestamps();
 
 			$table->unique(['user_id', 'feature_id']);
-			$table->index(['user_id', 'has_access']);
+			$table->index(['user_id', 'can_access']);
 			$table->index('expires_at');
 		});
 	}

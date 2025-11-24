@@ -32,6 +32,14 @@ class Feature extends Model
     }
 
     /**
+     * Get the table associated with the model.
+     */
+    public function getTable(): string
+    {
+        return config('dynamic-permissions.tables.features', 'features');
+    }
+
+    /**
      * Get the parent feature.
      */
     public function parent(): BelongsTo
@@ -40,11 +48,11 @@ class Feature extends Model
     }
 
     /**
-     * Get the parent feature.
+     * Get user-specific overrides for this feature.
      */
-    public function userOverrides(): BelongsToMany
+    public function userOverrides(): HasMany
     {
-        return $this->belongsToMany(UserFeatureOverride::class, 'feature_id');
+        return $this->hasMany(UserFeatureOverride::class, 'feature_id');
     }
 
     /**
@@ -70,7 +78,8 @@ class Feature extends Model
     {
         $roleModel = config('dynamic-permissions.models.role', \App\Models\Role::class);
 
-        return $this->belongsToMany($roleModel, 'role_features')
+        return $this->belongsToMany($roleModel, config('dynamic-permissions.tables.feature_role', 'feature_role'))
+            ->withPivot(['can_access', 'granted_by', 'granted_at'])
             ->withTimestamps();
     }
 

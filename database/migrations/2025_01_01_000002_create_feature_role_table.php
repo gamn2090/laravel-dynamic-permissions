@@ -11,20 +11,21 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		Schema::create('feature_roles', function (Blueprint $table) {
+		Schema::create(config('dynamic-permissions.tables.feature_role', 'feature_role'), function (Blueprint $table) {
 			$table->id();
-			$table->unsignedBigInteger('role_id');
+			$table->foreignId('role_id')
+				->constrained(config('dynamic-permissions.tables.roles', 'roles'))
+				->onDelete('cascade');
 			$table->foreignId('feature_id')->constrained()->onDelete('cascade');
-			$table->boolean('can_access')->default(true)->after('feature_id');
-			$table->foreignId('granted_by')->nullable()->after('can_access')->constrained('users')->onDelete('set null');
-			$table->timestamp('granted_at')->useCurrent()->after('granted_by');
+			$table->boolean('can_access')->default(true);
+			$table->unsignedBigInteger('granted_by')->nullable();
+			$table->timestamp('granted_at')->useCurrent();
 			$table->timestamps();
 
 			$table->index('can_access');
 			$table->index('granted_by');
 			$table->index('granted_at');
 			$table->unique(['role_id', 'feature_id']);
-			$table->index('role_id');
 		});
 	}
 
@@ -33,6 +34,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('feature_roles');
+		Schema::dropIfExists(config('dynamic-permissions.tables.feature_role', 'feature_role'));
 	}
 };

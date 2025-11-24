@@ -10,18 +10,31 @@ class UserFeatureOverride extends Model
     protected $fillable = [
         'user_id',
         'feature_id',
-        'has_access',
+        'can_access',
         'granted_by',
+        'revoked_by',
         'reason',
         'expires_at',
+        'granted_at',
+        'revoked_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'has_access' => 'boolean',
+            'can_access' => 'boolean',
             'expires_at' => 'datetime',
+            'granted_at' => 'datetime',
+            'revoked_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Get the table associated with the model.
+     */
+    public function getTable(): string
+    {
+        return config('dynamic-permissions.tables.user_feature_overrides', 'user_feature_overrides');
     }
 
     /**

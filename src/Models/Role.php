@@ -50,7 +50,7 @@ class Role extends Model
      */
     public function features(): BelongsToMany
     {
-        return $this->belongsToMany(Feature::class, config('dynamic-permissions.tables.feature_role', 'role_feature'))
+        return $this->belongsToMany(Feature::class, config('dynamic-permissions.tables.feature_role', 'feature_role'))
             ->withPivot(['can_access', 'granted_by', 'granted_at'])
             ->withTimestamps();
     }

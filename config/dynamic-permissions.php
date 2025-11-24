@@ -26,9 +26,9 @@ return [
     'tables' => [
         'roles' => 'roles',
         'features' => 'features',
-        'role_user' => 'role_users',
-        'feature_role' => 'feature_roles',
-        'user_features' => 'user_feature_overrides',
+        'role_user' => 'role_user',
+        'feature_role' => 'feature_role',
+        'user_feature_overrides' => 'user_feature_overrides',
     ],
 
     /*
