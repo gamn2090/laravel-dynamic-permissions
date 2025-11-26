@@ -13,17 +13,17 @@ return new class extends Migration
 	{
 		Schema::create(config('dynamic-permissions.tables.roles', 'roles'), function (Blueprint $table) {
 			$table->id();
-			$table->string('name')->unique();
+			$table->string('name');
 			$table->string('slug')->unique();
 			$table->text('description')->nullable();
-			$table->boolean('is_active')->default(true)->index();
-			$table->boolean('is_default')->default(false)->index();
-			$table->integer('priority')->default(0)->index();
+			$table->boolean('is_active')->default(true);
+			$table->boolean('is_default')->default(false);
+			$table->integer('priority')->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 
-			// Indexes for common queries
-			$table->index(['is_active', 'priority']);
+			$table->index('slug');
+			$table->index('is_active');
 		});
 	}
 

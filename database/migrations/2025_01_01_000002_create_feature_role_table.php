@@ -16,16 +16,14 @@ return new class extends Migration
 			$table->foreignId('role_id')
 				->constrained(config('dynamic-permissions.tables.roles', 'roles'))
 				->onDelete('cascade');
-			$table->foreignId('feature_id')->constrained()->onDelete('cascade');
-			$table->boolean('can_access')->default(true);
-			$table->unsignedBigInteger('granted_by')->nullable();
-			$table->timestamp('granted_at')->useCurrent();
+			$table->foreignId('feature_id')->constrained('features')->onDelete('cascade');
+			$table->boolean('can_access')->default(false);
+			$table->unsignedBigInteger('granted_by')->nullable()->index();
+			$table->timestamp('granted_at')->nullable();
 			$table->timestamps();
 
-			$table->index('can_access');
-			$table->index('granted_by');
-			$table->index('granted_at');
 			$table->unique(['role_id', 'feature_id']);
+			$table->index(['role_id', 'feature_id', 'can_access']);
 		});
 	}
 
